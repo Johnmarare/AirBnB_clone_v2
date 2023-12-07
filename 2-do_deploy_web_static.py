@@ -31,10 +31,12 @@ def do_deploy(archive_path):
 
         # Delete the archive from webserver
         run('rm /tmp/{}'.format(archive_name))
+        run('mv {}/web_static/* /{}'.format(release_folder, release_folder))
+        run('rm -rf {}/web_static'.format(release_folder))
 
         # Delete the symbolic link
         current_link = '/data/web_static/current'
-        run('rm -f {}'.format(current_link))
+        run('rm -rf {}'.format(current_link))
 
         # Create new link
         run('ln -s {} {}'.format(release_folder, current_link))
@@ -43,5 +45,4 @@ def do_deploy(archive_path):
 
         return True
     except Exception as e:
-        print(e)
         return False

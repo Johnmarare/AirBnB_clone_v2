@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# script that sets up your web servers for the deployment of web_static
+
+
+# Install Nginx if not installed
+
+if ! command -v nginx &> /dev/null; then
+	sudo apt-get update
+	sudo apt-get -y install nginx
+fi
+
+# Create necessary folders
+sudo mkdir -p /data/web-static/releases/test/
+sudo mkdir -p /data/web-static/shared
+
+# Create a fake HTML file with simple content
+echo "<html><head></head><body>Test Nginx Configuration!</body>" | sudo tee /data/web_static/releases/test/index.html
+
+# Create or recreate symbolic link
+sudo ln -sf /data/web_static/current /data/web_static/releases/test/
+
+# Give owenership of the data folder to user and group
+sudo chown -R ubuntu:ubuntu /data/
+
+# Update Nginx Configuration to serve the content
+sudo sed -i '51 i\\tlocation /hbnb_static/ {\n\talias /data/web_static/current/' /etc/nginx/sites-available/default
+
+# Restart Nginx
+sudo service nginx restart

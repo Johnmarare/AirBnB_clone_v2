@@ -35,11 +35,10 @@ def python_index(text):
     return "Python {}".format(text)
 
 
-@app.route('/number/<n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def n_index(n):
     """n is a number"""
-    if n.isnumeric():
-        return "{:d} is a number".format(n)
+    return "{:d} is a number".format(n)
 
 
 if __name__ == "__main__":

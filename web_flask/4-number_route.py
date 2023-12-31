@@ -38,8 +38,8 @@ def python_index(text):
 @app.route('/number/<n>', strict_slashes=False)
 def n_index(n):
     """n is a number"""
-    if n.isdigit():
-        return "{} is a number".format(n)
+    if n.isnumeric():
+        return "{:d} is a number".format(n)
 
 
 if __name__ == "__main__":
